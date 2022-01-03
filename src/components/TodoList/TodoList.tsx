@@ -19,9 +19,9 @@ function TodoList(props: TodoListPropsType) {
                 <button>+</button>
             </div>
             <ul>
-                <Task {...props.tasks[0]} />
-                <Task {...props.tasks[1]} />
-                <Task {...props.tasks[2]} />
+                <Task key={props.tasks[0].id} {...props.tasks[0]} />
+                <Task key={props.tasks[1].id} {...props.tasks[1]} />
+                <Task key={props.tasks[2].id} {...props.tasks[2]} />
 
                 {/* <li key={props.tasks[0].id}>
                     <input type="checkbox" checked={props.tasks[0].isDone}/>

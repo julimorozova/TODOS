@@ -1,13 +1,13 @@
 import React from "react";
 
 type TaskPropsType = {
-    id: number
+    //id: number
     title: string
     isDone: boolean
 }
-const Task = ({id, title, isDone}: TaskPropsType) => {
+const Task = ({title, isDone}: TaskPropsType) => {
     return (
-        <li key={id}>
+        <li>
             <input type="checkbox" checked={isDone}/>
             <span>{title}</span>
         </li>
