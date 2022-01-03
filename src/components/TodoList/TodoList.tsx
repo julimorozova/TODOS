@@ -1,11 +1,14 @@
 import React from "react";
+import TodoListHeader from "../TodoListHeader/TodoListHeader";
+import Button from "../Button/Button";
+
 type TodoListProps = {
     title: string
 }
 function TodoList(props: TodoListProps) {
     return (
         <div>
-            <h3>{props.title}</h3>
+            <TodoListHeader title={props.title} />
             <div>
                 <input/>
                 <button>+</button>
@@ -16,9 +19,9 @@ function TodoList(props: TodoListProps) {
                 <li><input type="checkbox" checked={false}/> <span>React</span></li>
             </ul>
             <div>
-                <button>All</button>
-                <button>Active</button>
-                <button>Completed</button>
+                <Button buttonName="All" />
+                <Button buttonName="Active" />
+                <Button buttonName="Completed" />
             </div>
         </div>
     )
