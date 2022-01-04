@@ -16,12 +16,18 @@ export const TodoList = (props: TodoListPropsType) => {
             <TodoListHeader title={props.title} />
             <div>
                 <input/>
-                <button>+</button>
+                <Button buttonName={'+'} />
             </div>
             <ul>
-                <Task key={props.tasks[0].id} {...props.tasks[0]} />
+                {props.tasks.map(item => {
+                    return (
+                        <Task key={item.id} {...item} />
+                    )
+                })}
+
+                { /*<Task key={props.tasks[0].id} {...props.tasks[0]} />
                 <Task key={props.tasks[1].id} {...props.tasks[1]} />
-                <Task key={props.tasks[2].id} {...props.tasks[2]} />
+                <Task key={props.tasks[2].id} {...props.tasks[2]} /> */}
 
                 {/* <li key={props.tasks[0].id}>
                     <input type="checkbox" checked={props.tasks[0].isDone}/>
