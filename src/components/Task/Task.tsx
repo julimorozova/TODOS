@@ -5,7 +5,7 @@ type TaskPropsType = {
     title: string
     isDone: boolean
 }
-const Task = ({title, isDone}: TaskPropsType) => {
+export const Task = ({title, isDone}: TaskPropsType) => {
     return (
         <li>
             <input type="checkbox" checked={isDone}/>
@@ -14,4 +14,3 @@ const Task = ({title, isDone}: TaskPropsType) => {
     )
 }
 
-export default Task;

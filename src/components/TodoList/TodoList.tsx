@@ -1,8 +1,8 @@
 import React from "react";
-import TodoListHeader from "../TodoListHeader/TodoListHeader";
-import Button from "../Button/Button";
-import {TaskType} from "../../App";
-import Task from "../Task/Task";
+import { TodoListHeader } from "../TodoListHeader/TodoListHeader";
+import { Button } from "../Button/Button";
+import { TaskType } from "../../App";
+import { Task } from "../Task/Task";
 
 
 type TodoListPropsType = {
@@ -10,7 +10,7 @@ type TodoListPropsType = {
     tasks: Array<TaskType>
 }
 
-function TodoList(props: TodoListPropsType) {
+export const TodoList = (props: TodoListPropsType) => {
     return (
         <div>
             <TodoListHeader title={props.title} />
@@ -45,4 +45,3 @@ function TodoList(props: TodoListPropsType) {
         </div>
     )
 }
-export default TodoList;
