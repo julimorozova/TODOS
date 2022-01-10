@@ -8,12 +8,15 @@ import { Task } from "../Task/Task";
 type TodoListPropsType = {
     title: string
     tasks: Array<TaskType>
+    removeTask: (taskID: number) => void
 }
 
 export const TodoList = (props: TodoListPropsType) => {
     const tasksComponents = props.tasks.map(item => {
         return (
-            <Task key={item.id} {...item} />
+            <Task key={item.id}
+                  {...item}
+                  removeTask={props.removeTask} />
         )
     });
 
