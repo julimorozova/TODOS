@@ -11,6 +11,12 @@ type TodoListPropsType = {
 }
 
 export const TodoList = (props: TodoListPropsType) => {
+    const tasksComponents = props.tasks.map(item => {
+        return (
+            <Task key={item.id} {...item} />
+        )
+    });
+
     return (
         <div>
             <TodoListHeader title={props.title} />
@@ -19,11 +25,7 @@ export const TodoList = (props: TodoListPropsType) => {
                 <Button buttonName={'+'} />
             </div>
             <ul>
-                {props.tasks.map(item => {
-                    return (
-                        <Task key={item.id} {...item} />
-                    )
-                })}
+                {tasksComponents}
 
                 { /*<Task key={props.tasks[0].id} {...props.tasks[0]} />
                 <Task key={props.tasks[1].id} {...props.tasks[1]} />
