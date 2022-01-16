@@ -1,10 +1,14 @@
 import React from "react";
 
-type ButtonProps = {
+type ButtonPropsType = {
     buttonName: string
+    onClickHandler: () => void
 }
-export const Button = (props: ButtonProps) => {
+export const Button: React.FC<ButtonPropsType> = ({
+    buttonName,
+    onClickHandler,
+  }) => {
     return (
-        <button>{props.buttonName}</button>
+        <button onClick={onClickHandler}>{buttonName}</button>
     )
 }
