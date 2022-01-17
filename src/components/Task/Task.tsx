@@ -1,17 +1,17 @@
 import React from "react";
 
 type TaskPropsType = {
-    id: number
+    id: string
     title: string
     isDone: boolean
-    removeTask: (taskID: number) => void
+    removeTask: (taskID: string) => void
 }
 
 export const Task = ({id, title, isDone, removeTask}: TaskPropsType) => {
     return (
         <li>
-            <input type="checkbox" checked={isDone}/>
-            <span>{title}</span>
+            <input type="checkbox" checked = { isDone }/>
+            <span>{ title }</span>
             <button onClick={() => removeTask(id)}>x</button>
         </li>
     )
