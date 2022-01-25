@@ -1,9 +1,10 @@
-import React, {useState} from 'react';
+import React, { useState } from 'react';
 import './App.css';
 import { TodoList } from "./components/TodoList/TodoList";
+import { v1 } from "uuid";
 
 export type TaskType = {
-    id: number
+    id: string
     title: string
     isDone: boolean
 }
@@ -23,21 +24,26 @@ function App() {
     */
     // функция для изменения state
     const [tasks, setTasks] = useState<Array<TaskType>>([
-        {id: 1, title: "HTML&CSS", isDone: true},
-        {id: 2, title: "JS", isDone: true},
-        {id: 3, title: "React", isDone: false},
-        {id: 4, title: "Rest api", isDone: false},
-        {id: 5, title: "Vue", isDone: true},
+        {id: v1(), title: "HTML&CSS", isDone: true},
+        {id: v1(), title: "JS", isDone: true},
+        {id: v1(), title: "React", isDone: false},
+        {id: v1(), title: "Rest api", isDone: false},
+        {id: v1(), title: "Vue", isDone: true},
     ])
-    const removeTask = (taskID: number) => {
+    const removeTask = (taskID: string) => {
         setTasks(tasks.filter(task => task.id !== taskID)) // true || false
     }
-    
+
     const [filter, setFilter] = useState<FilterValueType>("all");
     const changeFilter = (filter: FilterValueType) => {
         setFilter(filter)
     }
-
+    const addTask = (title: string) => {
+        let task = {id: v1(), title: title, isDone: false}
+        let newTasks: Array<TaskType> = [task, ...tasks] // new Array
+        setTasks(newTasks)
+    }
+    console.log(tasks)
     const getTasksForRender = () => {
         switch (filter) {
             case "active":
@@ -53,10 +59,11 @@ function App() {
     return (
         <div className="App">
             <TodoList
-                title={todoListTitle}
-                tasks={tasksForRender}
-                removeTask={removeTask}
-                changeFilter={changeFilter}
+                title = { todoListTitle }
+                tasks = { tasksForRender }
+                removeTask = { removeTask }
+                changeFilter={ changeFilter }
+                addTask = { addTask }
             />
         </div>
     );

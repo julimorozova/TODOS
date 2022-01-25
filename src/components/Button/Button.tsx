@@ -9,6 +9,6 @@ export const Button: React.FC<ButtonPropsType> = ({
     onClickHandler,
   }) => {
     return (
-        <button onClick={onClickHandler}>{buttonName}</button>
+        <button onClick = { onClickHandler }>{ buttonName }</button>
     )
 }
