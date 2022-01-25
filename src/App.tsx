@@ -38,12 +38,12 @@ function App() {
     const changeFilter = (filter: FilterValueType) => {
         setFilter(filter)
     }
-    const addTask = () => {
-        let task = {id: v1(), title: "NewTask", isDone: false}
-        let newTasks = [task, ...tasks]
+    const addTask = (title: string) => {
+        let task = {id: v1(), title: title, isDone: false}
+        let newTasks: Array<TaskType> = [task, ...tasks] // new Array
         setTasks(newTasks)
     }
-
+    console.log(tasks)
     const getTasksForRender = () => {
         switch (filter) {
             case "active":
