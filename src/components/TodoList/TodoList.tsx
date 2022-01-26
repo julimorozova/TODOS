@@ -11,6 +11,7 @@ type TodoListPropsType = {
     removeTask: (taskID: string) => void
     changeFilter: (filter: FilterValueType) => void
     addTask: (title: string) => void
+    changeTaskStatus: (taskId: string, isDone: boolean) => void
 }
 
 export const TodoList = (props: TodoListPropsType) => {
@@ -23,7 +24,9 @@ export const TodoList = (props: TodoListPropsType) => {
         return (
             <Task key = { item.id }
                   { ...item }
-                  removeTask = { props.removeTask } />
+                  removeTask = { props.removeTask }
+                  changeTaskStatus = {props.changeTaskStatus }
+            />
         )
     });
 
