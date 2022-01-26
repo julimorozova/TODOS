@@ -17,8 +17,10 @@ type TodoListPropsType = {
 export const TodoList = (props: TodoListPropsType) => {
     const [title, setTitle] = useState<string>("");
     const addTask = () => {
-        props.addTask(title);
-        setTitle("");
+        if(title.trim() !== "") {
+            props.addTask(title.trim());
+            setTitle("");
+        }
     }
     const tasksComponents = props.tasks.map(item => {
         return (
