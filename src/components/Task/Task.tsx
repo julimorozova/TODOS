@@ -14,7 +14,7 @@ export const Task = ({ id, title, isDone, removeTask, changeTaskStatus }: TaskPr
         changeTaskStatus(id, newIsDoneValue);
     }
     return (
-        <li>
+        <li className = {isDone ? "is-done" : "" }>
             <input type="checkbox"
                    onChange = { onChangeHandler }
                    checked = { isDone }
