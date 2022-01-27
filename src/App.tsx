@@ -25,10 +25,10 @@ function App() {
     // функция для изменения state
     const [tasks, setTasks] = useState<Array<TaskType>>([
         {id: v1(), title: "HTML&CSS", isDone: true},
-        {id: v1(), title: "JS", isDone: true},
+        {id: v1(), title: "JS", isDone: false},
         {id: v1(), title: "React", isDone: false},
         {id: v1(), title: "Rest api", isDone: false},
-        {id: v1(), title: "Vue", isDone: true},
+        {id: v1(), title: "Vue", isDone: false},
     ])
     const removeTask = (taskID: string) => {
         setTasks(tasks.filter(task => task.id !== taskID)) // true || false
@@ -43,7 +43,7 @@ function App() {
         let newTasks: Array<TaskType> = [task, ...tasks] // new Array
         setTasks(newTasks)
     }
-    console.log(tasks)
+    // console.log(tasks)
     const getTasksForRender = () => {
         switch (filter) {
             case "active":
@@ -55,6 +55,15 @@ function App() {
         }
     }
     const tasksForRender = getTasksForRender();
+
+    const changeStatus = (taskId: string, isDone: boolean) => {
+        let task = tasks.find( t => t.id === taskId )
+        if(task) {
+            task.isDone = isDone;
+        }
+        setTasks([...tasks])
+    }
+
     // UI:
     return (
         <div className="App">
@@ -64,6 +73,8 @@ function App() {
                 removeTask = { removeTask }
                 changeFilter={ changeFilter }
                 addTask = { addTask }
+                changeTaskStatus = { changeStatus }
+                filter = {filter}
             />
         </div>
     );
