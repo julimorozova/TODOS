@@ -6,6 +6,7 @@ import { Task } from "../Task/Task";
 
 
 type TodoListPropsType = {
+    id: string
     title: string
     tasks: Array<TaskType>
     removeTask: (taskID: string) => void

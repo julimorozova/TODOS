@@ -9,7 +9,12 @@ export type TaskType = {
     isDone: boolean
 }
 export type FilterValueType = "all" | "active" | "completed"
-
+export type TodoListType = {
+    id: string
+    title: string
+    filter: FilterValueType
+}
+export type TodoListsType = Array<TodoListType>
 function App() {
     // BLL:
     const todoListTitle: string = "What to learn";
@@ -22,6 +27,18 @@ function App() {
         {id: 5, title: "Vue", isDone: true},
     ]
     */
+    const [todoLists, setTodoLists] = useState<TodoListsType>([
+        {
+            id: v1(),
+            title: "What to learn",
+            filter: "all"
+        },
+        {
+            id: v1(),
+            title: "What to buy",
+            filter: "all"
+        }
+    ])
     // функция для изменения state
     const [tasks, setTasks] = useState<Array<TaskType>>([
         {id: v1(), title: "HTML&CSS", isDone: true},
@@ -67,15 +84,30 @@ function App() {
     // UI:
     return (
         <div className="App">
-            <TodoList
-                title = { todoListTitle }
-                tasks = { tasksForRender }
-                removeTask = { removeTask }
-                changeFilter={ changeFilter }
-                addTask = { addTask }
-                changeTaskStatus = { changeStatus }
-                filter = {filter}
-            />
+            {
+                todoLists.map(tl => {
+                    return <TodoList
+                        key={tl.id}
+                        id={tl.id}
+                        title = { tl.title }
+                        tasks = { tasksForRender }
+                        removeTask = { removeTask }
+                        changeFilter={ changeFilter }
+                        addTask = { addTask }
+                        changeTaskStatus = { changeStatus }
+                        filter = {tl.filter}
+                    />
+                })
+            }
+            {/*<TodoList*/}
+            {/*    title = { todoListTitle }*/}
+            {/*    tasks = { tasksForRender }*/}
+            {/*    removeTask = { removeTask }*/}
+            {/*    changeFilter={ changeFilter }*/}
+            {/*    addTask = { addTask }*/}
+            {/*    changeTaskStatus = { changeStatus }*/}
+            {/*    filter = {filter}*/}
+            {/*/>*/}
         </div>
     );
 }
