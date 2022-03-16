@@ -44,16 +44,17 @@ export const TodoList = (props: TodoListPropsType) => {
     const onCompletedClickHandler = () => props.changeFilter("completed", props.todoListID);
 
     const tasksComponents = props.tasks.map(item => {
-        console.log(item)
+        const removeTask = (taskID: string) => props.removeTask(taskID, props.todoListID)
+        const changeTaskStatus = (taskID: string, isDone: boolean) => props.changeTaskStatus(taskID, isDone, props.todoListID )
+
         return (
             <Task
-                todoListID = {props.todoListID}
                 key = { item.id }
                 id = { item.id }
                 title = { item.title }
                 isDone={ item.isDone }
-                removeTask = { props.removeTask }
-                changeTaskStatus = {props.changeTaskStatus }
+                removeTask = { removeTask }
+                changeTaskStatus = { changeTaskStatus }
             />
         )
     });
