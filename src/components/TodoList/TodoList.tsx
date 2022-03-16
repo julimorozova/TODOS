@@ -6,13 +6,15 @@ import { Task } from "../Task/Task";
 
 
 type TodoListPropsType = {
+    todoListID: string
     title: string
     tasks: Array<TaskType>
-    removeTask: (taskID: string) => void
-    changeFilter: (filter: FilterValueType) => void
-    addTask: (title: string) => void
-    changeTaskStatus: (taskId: string, isDone: boolean) => void
+    removeTask: (taskID: string, todoListID: string) => void
+    changeFilter: (filter: FilterValueType, todoListID: string) => void
+    addTask: (title: string, todoListID: string) => void
+    changeTaskStatus: (taskId: string, isDone: boolean, todoListID: string) => void
     filter: FilterValueType
+    removeTodoList: (todoListID: string) => void
 }
 
 export const TodoList = (props: TodoListPropsType) => {
@@ -20,7 +22,7 @@ export const TodoList = (props: TodoListPropsType) => {
     const [error, setError] = useState<string | null>(null);
     const addTask = () => {
         if(title.trim() !== "") {
-            props.addTask(title.trim());
+            props.addTask(title.trim(), props.todoListID);
             setTitle("");
         } else {
             setError("Title is required")
@@ -38,23 +40,34 @@ export const TodoList = (props: TodoListPropsType) => {
         }
     }
 
-    const onAllClickHandler = () => props.changeFilter("all");
-    const onActiveClickHandler = () => props.changeFilter("active");
-    const onCompletedClickHandler = () => props.changeFilter("completed");
+    const onAllClickHandler = () => props.changeFilter("all", props.todoListID);
+    const onActiveClickHandler = () => props.changeFilter("active", props.todoListID);
+    const onCompletedClickHandler = () => props.changeFilter("completed", props.todoListID);
+
+    const removeTodoList = () => props.removeTodoList(props.todoListID)
 
     const tasksComponents = props.tasks.map(item => {
+        const removeTask = (taskID: string) => props.removeTask(taskID, props.todoListID)
+        const changeTaskStatus = (taskID: string, isDone: boolean) => props.changeTaskStatus(taskID, isDone, props.todoListID )
+
+
         return (
             <Task
                 key = { item.id }
-                { ...item }
-                removeTask = { props.removeTask }
-                changeTaskStatus = {props.changeTaskStatus }
+                id = { item.id }
+                title = { item.title }
+                isDone={ item.isDone }
+                removeTask = { removeTask }
+                changeTaskStatus = { changeTaskStatus }
             />
         )
     });
     return (
         <div>
-            <TodoListHeader title = { props.title } />
+            <TodoListHeader
+                title = { props.title }
+                removeTodoList = { removeTodoList }
+            />
             <div>
                 <input
                     value = { title }
@@ -67,24 +80,6 @@ export const TodoList = (props: TodoListPropsType) => {
             </div>
             <ul>
                 { tasksComponents }
-
-                { /*<Task key={props.tasks[0].id} {...props.tasks[0]} />
-                <Task key={props.tasks[1].id} {...props.tasks[1]} />
-                <Task key={props.tasks[2].id} {...props.tasks[2]} /> */}
-
-                {/* <li key={props.tasks[0].id}>
-                    <input type="checkbox" checked={props.tasks[0].isDone}/>
-                    <span>{props.tasks[0].title}</span>
-                </li>
-                <li key={props.tasks[1].id}>
-                    <input type="checkbox" checked={props.tasks[1].isDone}/>
-                    <span>{props.tasks[1].title}</span>
-                </li>
-                <li key={props.tasks[2].id}>
-                    <input type="checkbox" checked={props.tasks[2].isDone}/>
-                    <span>{props.tasks[2].title}</span>
-                </li> */}
-
             </ul>
             <div>
                 <Button
