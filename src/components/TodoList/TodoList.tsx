@@ -6,7 +6,7 @@ import { Task } from "../Task/Task";
 
 
 type TodoListPropsType = {
-    id: string
+    todoListID: string
     title: string
     tasks: Array<TaskType>
     removeTask: (taskID: string, todoListID: string) => void
@@ -21,7 +21,7 @@ export const TodoList = (props: TodoListPropsType) => {
     const [error, setError] = useState<string | null>(null);
     const addTask = () => {
         if(title.trim() !== "") {
-            props.addTask(title.trim(), props.id);
+            props.addTask(title.trim(), props.todoListID);
             setTitle("");
         } else {
             setError("Title is required")
@@ -39,13 +39,14 @@ export const TodoList = (props: TodoListPropsType) => {
         }
     }
 
-    const onAllClickHandler = () => props.changeFilter("all");
-    const onActiveClickHandler = () => props.changeFilter("active");
-    const onCompletedClickHandler = () => props.changeFilter("completed");
+    const onAllClickHandler = () => props.changeFilter("all", props.todoListID);
+    const onActiveClickHandler = () => props.changeFilter("active", props.todoListID);
+    const onCompletedClickHandler = () => props.changeFilter("completed", props.todoListID);
 
     const tasksComponents = props.tasks.map(item => {
         return (
             <Task
+                todoListID = {props.todoListID}
                 key = { item.id }
                 { ...item }
                 removeTask = { props.removeTask }

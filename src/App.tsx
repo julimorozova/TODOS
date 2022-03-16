@@ -110,7 +110,7 @@ function App() {
 
         return <TodoList
             key={ tl.id }
-            id={ tl.id }
+            todoListID={ tl.id }
             title = { tl.title }
             tasks = { tasksForRender }
             removeTask = { removeTask }
