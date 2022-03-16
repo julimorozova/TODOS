@@ -93,6 +93,11 @@ function App() {
 
         // setTasks({...tasks, [todoListID]: tasks[todoListID].map(t => t.id === taskId ? {...t, isDone} : t)})
     }
+    const removeTodoList = (todoListID: string) => {
+        const filteredTodoLists = todoLists.filter(tl => tl.id !== todoListID)
+        setTodoLists(filteredTodoLists)
+        delete tasks[todoListID]
+    }
 
     const getTasksForRender = (todoList: TodoListType) => {
         switch (todoList.filter) {
@@ -118,6 +123,7 @@ function App() {
             addTask = { addTask }
             changeTaskStatus = { changeStatus }
             filter = { tl.filter }
+            removeTodoList = { removeTodoList }
         />
     })
 
