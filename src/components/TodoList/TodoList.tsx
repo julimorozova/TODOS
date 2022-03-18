@@ -68,6 +68,7 @@ export const TodoList = (props: TodoListPropsType) => {
                 title = { props.title }
                 removeTodoList = { removeTodoList }
             />
+            // ***
             <div>
                 <input
                     value = { title }
@@ -78,6 +79,8 @@ export const TodoList = (props: TodoListPropsType) => {
                 <button onClick = { addTask }>+</button>
                 {error && <div className="error-message">{error}</div>}
             </div>
+
+            // ***
             <ul>
                 { tasksComponents }
             </ul>
