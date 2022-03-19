@@ -1,4 +1,5 @@
 import React, {ChangeEvent} from "react";
+import { EditableSpan } from "../EditableSpan/EditableSpan";
 
 type TaskPropsType = {
     id: string
@@ -6,20 +7,26 @@ type TaskPropsType = {
     isDone: boolean
     removeTask: (taskID: string) => void
     changeTaskStatus: (taskId: string, isDone: boolean) => void
+    changeTaskTitle: (taskId: string, title: string) => void
 }
 
-export const Task = ({ id, title, isDone, removeTask, changeTaskStatus }: TaskPropsType) => {
+export const Task = ({ id, title, isDone, removeTask, changeTaskStatus, changeTaskTitle }: TaskPropsType) => {
     const onChangeHandler = (e: ChangeEvent<HTMLInputElement>) => {
         let newIsDoneValue = e.currentTarget.checked;
         changeTaskStatus(id, newIsDoneValue);
     }
+    const changeTitle = (title: string) => changeTaskTitle(id, title)
+
     return (
         <li className = {isDone ? "is-done" : "" }>
             <input type="checkbox"
                    onChange = { onChangeHandler }
                    checked = { isDone }
             />
-            <span>{ title }</span>
+            <EditableSpan
+                title={ title }
+                changeTitle={ changeTitle }
+            />
             <button onClick={() => removeTask(id)}>x</button>
         </li>
     )

@@ -3,6 +3,7 @@ import './App.css';
 import { TodoList } from "./components/TodoList/TodoList";
 import { v1 } from "uuid";
 import {AddItemForm} from "./components/AddItemForm/AddItemForm";
+import {TodoListHeader} from "./components/TodoListHeader/TodoListHeader";
 
 export type TaskType = {
     id: string
@@ -94,6 +95,15 @@ function App() {
 
         // setTasks({...tasks, [todoListID]: tasks[todoListID].map(t => t.id === taskId ? {...t, isDone} : t)})
     }
+    const changeTaskTitle = (taskId: string, todoListID: string, title: string) => {
+        const tasksFromTodoList = tasks[todoListID]
+        const updateTask = tasksFromTodoList.map(t => t.id === taskId ? {...t, title} : t)
+        const copyTasks = {...tasks}
+        copyTasks[todoListID] = updateTask
+        setTasks(copyTasks)
+
+        // setTasks({...tasks, [todoListID]: tasks[todoListID].map(t => t.id === taskId ? {...t, isDone} : t)})
+    }
     const removeTodoList = (todoListID: string) => {
         const filteredTodoLists = todoLists.filter(tl => tl.id !== todoListID)
         setTodoLists(filteredTodoLists)
@@ -133,6 +143,7 @@ function App() {
             changeFilter={ changeFilter }
             addTask = { addTask }
             changeTaskStatus = { changeStatus }
+            changeTaskTitle = { changeTaskTitle }
             filter = { tl.filter }
             removeTodoList = { removeTodoList }
         />
