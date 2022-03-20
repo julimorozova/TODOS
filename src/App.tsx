@@ -1,9 +1,10 @@
-import React, { useState } from 'react';
+import React, {useState} from 'react';
 import './App.css';
-import { TodoList } from "./components/TodoList/TodoList";
-import { v1 } from "uuid";
+import {TodoList} from "./components/TodoList/TodoList";
+import {v1} from "uuid";
 import {AddItemForm} from "./components/AddItemForm/AddItemForm";
 import {TodoListHeader} from "./components/TodoListHeader/TodoListHeader";
+import {Paper} from "@material-ui/core";
 
 export type TaskType = {
     id: string
@@ -20,6 +21,7 @@ export type TodoListType = {
 type TaskStateType = {
     [todoListID: string]: Array<TaskType>
 }
+
 function App() {
     // BLL:
 
@@ -137,28 +139,43 @@ function App() {
     const todoListsComponents = todoLists.map(tl => {
         const tasksForRender = getTasksForRender(tl);
 
-        return <TodoList
-            key={ tl.id }
-            todoListID={ tl.id }
-            title = { tl.title }
-            tasks = { tasksForRender }
-            removeTask = { removeTask }
-            changeFilter={ changeFilter }
-            changeTodoListTitle={ changeTodoListTitle }
-            addTask = { addTask }
-            changeTaskStatus = { changeStatus }
-            changeTaskTitle = { changeTaskTitle }
-            filter = { tl.filter }
-            removeTodoList = { removeTodoList }
-        />
+        return (
+            <Paper elevation={3}>
+                <TodoList
+                    key={tl.id}
+                    todoListID={tl.id}
+                    title={tl.title}
+                    tasks={tasksForRender}
+                    removeTask={removeTask}
+                    changeFilter={changeFilter}
+                    changeTodoListTitle={changeTodoListTitle}
+                    addTask={addTask}
+                    changeTaskStatus={changeStatus}
+                    changeTaskTitle={changeTaskTitle}
+                    filter={tl.filter}
+                    removeTodoList={removeTodoList}
+                />
+            </Paper>
+        )
+
     })
 
     // UI:
     return (
-        <div className="App">
-            <AddItemForm addItem={addTodoList} />
-            { todoListsComponents }
+        <div className={"wrapper"}>
+            <div className={"inputAddTodoList"}>
+                <AddItemForm
+                    addItem={addTodoList}
+                    label={"Enter a new TodoList"}
+                />
+            </div>
+
+            <div className={"App"}>
+                {todoListsComponents}
+            </div>
+
         </div>
     );
 }
+
 export default App;

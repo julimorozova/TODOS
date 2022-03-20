@@ -1,5 +1,7 @@
 import React from "react";
 import { EditableSpan } from "../EditableSpan/EditableSpan";
+import {Delete, DeleteOutline} from "@material-ui/icons";
+import {IconButton} from "@material-ui/core";
 
 type TodoListHeaderProps = {
     title: string
@@ -11,7 +13,11 @@ export const TodoListHeader: React.FC<TodoListHeaderProps> = ({title, removeTodo
     return (
         <h3>
             <EditableSpan title={ title } changeTitle={ changeTitle } />
-            <button onClick={() => removeTodoList()}>x</button>
+            <IconButton aria-label="delete"
+                        onClick={() => removeTodoList()}>
+                <DeleteOutline />
+            </IconButton>
+            {/*<button onClick={() => removeTodoList()}>x</button>*/}
         </h3>
     )
 }

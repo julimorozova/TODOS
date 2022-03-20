@@ -1,5 +1,7 @@
 import React, {ChangeEvent} from "react";
-import { EditableSpan } from "../EditableSpan/EditableSpan";
+import {EditableSpan} from "../EditableSpan/EditableSpan";
+import {Checkbox, IconButton} from "@material-ui/core";
+import {Delete, DeleteOutline} from "@material-ui/icons";
 
 type TaskPropsType = {
     id: string
@@ -10,7 +12,7 @@ type TaskPropsType = {
     changeTaskTitle: (taskId: string, title: string) => void
 }
 
-export const Task = ({ id, title, isDone, removeTask, changeTaskStatus, changeTaskTitle }: TaskPropsType) => {
+export const Task = ({id, title, isDone, removeTask, changeTaskStatus, changeTaskTitle}: TaskPropsType) => {
     const onChangeHandler = (e: ChangeEvent<HTMLInputElement>) => {
         let newIsDoneValue = e.currentTarget.checked;
         changeTaskStatus(id, newIsDoneValue);
@@ -18,17 +20,25 @@ export const Task = ({ id, title, isDone, removeTask, changeTaskStatus, changeTa
     const changeTitle = (title: string) => changeTaskTitle(id, title)
 
     return (
-        <li className = {isDone ? "is-done" : "" }>
-            <input type="checkbox"
-                   onChange = { onChangeHandler }
-                   checked = { isDone }
-            />
-            <EditableSpan
-                title={ title }
-                changeTitle={ changeTitle }
-            />
-            <button onClick={() => removeTask(id)}>x</button>
-        </li>
+        <div >
+
+            <span className={isDone ? "is-done" : ""}>
+                <Checkbox
+                    onChange={onChangeHandler}
+                    checked={isDone}
+                    color={"primary"}
+                />
+                <EditableSpan
+                    title={title}
+                    changeTitle={changeTitle}
+                />
+            </span>
+
+            <IconButton aria-label="delete"
+                        onClick={() => removeTask(id)}>
+                <DeleteOutline />
+            </IconButton>
+        </div>
     )
 }
 

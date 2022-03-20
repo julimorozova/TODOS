@@ -1,10 +1,18 @@
 .App {
   padding: 30px;
   display: flex;
+  flex-wrap: wrap;
 }
 
 .App > div {
-  margin-right: 50px;
+  padding-left: 20px;
+  padding-right: 20px;
+  padding-top: 10px;
+  padding-bottom: 30px;
+  margin: 20px;
+}
+ul {
+  list-style-type: none;
 }
 
 .error {
@@ -19,3 +27,15 @@
 .is-done {
   opacity: 0.5;
 }
+.todolist {
+  min-width: 250px;
+}
+.inputAddTodoList {
+  margin: 30px;
+  text-align: center;
+}
+.wrapper {
+  width: 1140px;
+  margin: 0 auto;
+}
+
