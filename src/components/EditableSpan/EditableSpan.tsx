@@ -30,7 +30,7 @@ export const EditableSpan: React.FC<EditableSpanPropsType> = ({title, changeTitl
                 onBlur={ offEditMode }
                 onKeyPress={ onKeyPressOffMode }
             />
-            : <span onDoubleClick={ onEditMode }>{title}</span>
+            : <span onDoubleClick={ onEditMode }>{ title }</span>
     );
 };
 
