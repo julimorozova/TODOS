@@ -1,9 +1,9 @@
-import React, { useState, ChangeEvent, KeyboardEvent } from "react";
-import { TodoListHeader } from "../TodoListHeader/TodoListHeader";
-import { Button } from "../Button/Button";
-import { FilterValueType, TaskType } from "../../App";
-import { Task } from "../Task/Task";
+import React, {useState, ChangeEvent, KeyboardEvent} from "react";
+import {TodoListHeader} from "../TodoListHeader/TodoListHeader";
+import {FilterValueType, TaskType} from "../../App";
+import {Task} from "../Task/Task";
 import {AddItemForm} from "../AddItemForm/AddItemForm";
+import {Button, ButtonGroup, List} from "@material-ui/core";
 
 
 type TodoListPropsType = {
@@ -22,58 +22,62 @@ type TodoListPropsType = {
 
 export const TodoList = (props: TodoListPropsType) => {
     const setFilterValue = (filter: FilterValueType) => () => props.changeFilter(filter, props.todoListID)
-    const setTitleValue = (title: string) =>  props.changeTodoListTitle(title, props.todoListID)
+    const setTitleValue = (title: string) => props.changeTodoListTitle(title, props.todoListID)
     const removeTodoList = () => props.removeTodoList(props.todoListID)
     const addTask = (title: string) => props.addTask(title, props.todoListID)
 
     const tasksComponents = props.tasks.map(item => {
         const removeTask = (taskID: string) => props.removeTask(taskID, props.todoListID)
-        const changeTaskStatus = (taskID: string, isDone: boolean) => props.changeTaskStatus(taskID, isDone, props.todoListID )
+        const changeTaskStatus = (taskID: string, isDone: boolean) => props.changeTaskStatus(taskID, isDone, props.todoListID)
         const changeTaskTitle = (taskID: string, title: string) => props.changeTaskTitle(taskID, props.todoListID, title)
 
         return (
             <Task
-                key = { item.id }
-                id = { item.id }
-                title = { item.title }
-                isDone={ item.isDone }
-                removeTask = { removeTask }
-                changeTaskStatus = { changeTaskStatus }
-                changeTaskTitle = { changeTaskTitle }
+                key={item.id}
+                id={item.id}
+                title={item.title}
+                isDone={item.isDone}
+                removeTask={removeTask}
+                changeTaskStatus={changeTaskStatus}
+                changeTaskTitle={changeTaskTitle}
             />
         )
     });
 
     return (
-        <div>
+        <div className={"todolist"}>
             <TodoListHeader
-                title = { props.title }
-                removeTodoList = { removeTodoList }
-                changeTitle={ setTitleValue }
+                title={props.title}
+                removeTodoList={removeTodoList}
+                changeTitle={setTitleValue}
             />
 
-            <AddItemForm addItem={ addTask }/>
 
-            <ul>
-                { tasksComponents }
-            </ul>
-            <div>
+            <AddItemForm
+                addItem={addTask}
+                label={"Enter a task"}
+            />
+
+            <List>
+                {tasksComponents}
+            </List>
+            <ButtonGroup
+                color={"primary"}
+                size={"small"}
+                className={"buttonGroup"}
+                fullWidth
+                style={{marginTop: "10px"}}
+            >
                 <Button
-                    className = { props.filter === "all" ? "active-filter" : "" }
-                    buttonName = "All"
-                    onClickHandler = { setFilterValue("all") }
-                />
+                    variant={props.filter === "all" ? "contained" : "outlined"}
+                    onClick={setFilterValue("all")}>all</Button>
                 <Button
-                    className = { props.filter === "active" ? "active-filter" : "" }
-                    buttonName = "Active"
-                    onClickHandler = { setFilterValue("active") }
-                />
+                    variant={props.filter === "active" ? "contained" : "outlined"}
+                    onClick={setFilterValue("active")}>active</Button>
                 <Button
-                    className = { props.filter === "completed" ? "active-filter" : "" }
-                    buttonName = "Completed"
-                    onClickHandler = { setFilterValue("completed") }
-                />
-            </div>
+                    variant={props.filter === "completed" ? "contained" : "outlined"}
+                    onClick={setFilterValue("completed")}>completed</Button>
+            </ButtonGroup>
         </div>
-    )
+    );
 }
