@@ -1,6 +1,6 @@
 import React, {ChangeEvent} from "react";
 import {EditableSpan} from "../EditableSpan/EditableSpan";
-import {Checkbox, IconButton} from "@material-ui/core";
+import {Checkbox, IconButton, ListItem} from "@material-ui/core";
 import {Delete, DeleteOutline} from "@material-ui/icons";
 
 type TaskPropsType = {
@@ -20,8 +20,7 @@ export const Task = ({id, title, isDone, removeTask, changeTaskStatus, changeTas
     const changeTitle = (title: string) => changeTaskTitle(id, title)
 
     return (
-        <div >
-
+        <ListItem divider>
             <span className={isDone ? "is-done" : ""}>
                 <Checkbox
                     onChange={onChangeHandler}
@@ -33,12 +32,12 @@ export const Task = ({id, title, isDone, removeTask, changeTaskStatus, changeTas
                     changeTitle={changeTitle}
                 />
             </span>
-
             <IconButton aria-label="delete"
+                        size={"small"}
                         onClick={() => removeTask(id)}>
                 <DeleteOutline />
             </IconButton>
-        </div>
+        </ListItem>
     )
 }
 

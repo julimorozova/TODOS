@@ -40,13 +40,13 @@ export const AddItemForm: React.FC<AddItemFormPropsType> = ({ addItem, label }) 
                 onKeyPress = { onKeyPressAddItem }
                 className={error ? "error" : ""}
                 size={"small"}
+                error={!!error}
                 />
 
             <IconButton
                         onClick = { addTask }>
                 <Add />
             </IconButton>
-            {/*<button onClick = { addTask }>+</button>*/}
             {error && <div className="error-message">{error}</div>}
         </div>
     );

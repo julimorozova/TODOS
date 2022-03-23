@@ -3,7 +3,7 @@ import {TodoListHeader} from "../TodoListHeader/TodoListHeader";
 import {FilterValueType, TaskType} from "../../App";
 import {Task} from "../Task/Task";
 import {AddItemForm} from "../AddItemForm/AddItemForm";
-import {Button, ButtonGroup} from "@material-ui/core";
+import {Button, ButtonGroup, List} from "@material-ui/core";
 
 
 type TodoListPropsType = {
@@ -52,18 +52,21 @@ export const TodoList = (props: TodoListPropsType) => {
                 changeTitle={setTitleValue}
             />
 
+
             <AddItemForm
                 addItem={addTask}
                 label={"Enter a task"}
             />
 
-            <div>
+            <List>
                 {tasksComponents}
-            </div>
+            </List>
             <ButtonGroup
                 color={"primary"}
                 size={"small"}
                 className={"buttonGroup"}
+                fullWidth
+                style={{marginTop: "10px"}}
             >
                 <Button
                     variant={props.filter === "all" ? "contained" : "outlined"}
@@ -76,5 +79,5 @@ export const TodoList = (props: TodoListPropsType) => {
                     onClick={setFilterValue("completed")}>completed</Button>
             </ButtonGroup>
         </div>
-    )
+    );
 }

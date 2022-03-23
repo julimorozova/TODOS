@@ -4,7 +4,8 @@ import {TodoList} from "./components/TodoList/TodoList";
 import {v1} from "uuid";
 import {AddItemForm} from "./components/AddItemForm/AddItemForm";
 import {TodoListHeader} from "./components/TodoListHeader/TodoListHeader";
-import {Paper} from "@material-ui/core";
+import {AppBar, Button, Container, Grid, IconButton, Paper, Toolbar, Typography} from "@material-ui/core";
+import {Menu} from "@material-ui/icons";
 
 export type TaskType = {
     id: string
@@ -140,40 +141,52 @@ function App() {
         const tasksForRender = getTasksForRender(tl);
 
         return (
-            <Paper elevation={3}>
-                <TodoList
-                    key={tl.id}
-                    todoListID={tl.id}
-                    title={tl.title}
-                    tasks={tasksForRender}
-                    removeTask={removeTask}
-                    changeFilter={changeFilter}
-                    changeTodoListTitle={changeTodoListTitle}
-                    addTask={addTask}
-                    changeTaskStatus={changeStatus}
-                    changeTaskTitle={changeTaskTitle}
-                    filter={tl.filter}
-                    removeTodoList={removeTodoList}
-                />
-            </Paper>
+            <Grid item key={tl.id}>
+                <Paper elevation={3}>
+                    <TodoList
+                        todoListID={tl.id}
+                        title={tl.title}
+                        tasks={tasksForRender}
+                        removeTask={removeTask}
+                        changeFilter={changeFilter}
+                        changeTodoListTitle={changeTodoListTitle}
+                        addTask={addTask}
+                        changeTaskStatus={changeStatus}
+                        changeTaskTitle={changeTaskTitle}
+                        filter={tl.filter}
+                        removeTodoList={removeTodoList}
+                    />
+                </Paper>
+            </Grid>
         )
 
     })
 
     // UI:
     return (
-        <div className={"wrapper"}>
-            <div className={"inputAddTodoList"}>
-                <AddItemForm
-                    addItem={addTodoList}
-                    label={"Enter a new TodoList"}
-                />
-            </div>
-
-            <div className={"App"}>
-                {todoListsComponents}
-            </div>
-
+        <div>
+            <AppBar position="static">
+                <Toolbar style={{justifyContent: "space-between"}}>
+                    <IconButton edge="start" color="inherit" aria-label="menu">
+                        <Menu/>
+                    </IconButton>
+                    <Typography variant="h6">
+                        TodoLists
+                    </Typography>
+                    <Button color="inherit" variant={"outlined"}>Login</Button>
+                </Toolbar>
+            </AppBar>
+            <Container fixed>
+                <Grid container style={{padding: "25px 0"}}>
+                    <AddItemForm
+                        addItem={addTodoList}
+                        label={"Enter a new TodoList"}
+                    />
+                </Grid>
+                <Grid container spacing={4}>
+                    {todoListsComponents}
+                </Grid>
+            </Container>
         </div>
     );
 }

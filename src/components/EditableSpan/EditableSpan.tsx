@@ -25,16 +25,8 @@ export const EditableSpan: React.FC<EditableSpanPropsType> = ({title, changeTitl
     return (
         editMode
             ?
-        // <input
-            //     autoFocus={ true }
-            //     value={ newTitle }
-            //     onChange={ onChangeSetUserText }
-            //     onBlur={ offEditMode }
-            //     onKeyPress={ onKeyPressOffMode }
-            // />
             <TextField
                 id="outlined-basic"
-                variant="outlined"
                 autoFocus={ true }
                 value={ newTitle }
                 onChange={ onChangeSetUserText }
