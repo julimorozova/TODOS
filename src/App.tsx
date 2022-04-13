@@ -19,7 +19,7 @@ export type TodoListType = {
     filter: FilterValueType
 }
 
-type TaskStateType = {
+export type TaskStateType = {
     [todoListID: string]: Array<TaskType>
 }
 
@@ -118,7 +118,7 @@ function App() {
 
         // setTasks({...tasks, [todoListID]: tasks[todoListID].map(t => t.id === taskId ? {...t, isDone} : t)})
     }
-    const changeTaskTitle = (taskId: string, todoListID: string, title: string) => {
+     const changeTaskTitle = (taskId: string, todoListID: string, title: string) => {
         const tasksFromTodoList = tasks[todoListID]
         const updateTask = tasksFromTodoList.map(t => t.id === taskId ? {...t, title} : t)
         const copyTasks = {...tasks}
