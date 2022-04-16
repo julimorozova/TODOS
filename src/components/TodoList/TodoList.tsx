@@ -1,4 +1,4 @@
-import React, {useState, ChangeEvent, KeyboardEvent} from "react";
+import React, {useCallback} from "react";
 import {TodoListHeader} from "../TodoListHeader/TodoListHeader";
 import {FilterValueType, TaskType} from "../../App";
 import {Task} from "../Task/Task";
@@ -20,16 +20,31 @@ type TodoListPropsType = {
     removeTodoList: (todoListID: string) => void
 }
 
-export const TodoList = (props: TodoListPropsType) => {
-    const setFilterValue = (filter: FilterValueType) => () => props.changeFilter(filter, props.todoListID)
-    const setTitleValue = (title: string) => props.changeTodoListTitle(title, props.todoListID)
-    const removeTodoList = () => props.removeTodoList(props.todoListID)
-    const addTask = (title: string) => props.addTask(title, props.todoListID)
+export const TodoList: React.FC<TodoListPropsType> = React.memo(({todoListID, addTask, ...props}) => {
+    console.log("TodoList")
+    const setFilterValue = (filter: FilterValueType) => () => props.changeFilter(filter, todoListID)
+    const setTitleValue = (title: string) => props.changeTodoListTitle(title, todoListID)
+    const removeTodoList = () => props.removeTodoList(todoListID)
+    const addNewTask = useCallback((title: string) => addTask(title, todoListID), [addTask, todoListID])
 
-    const tasksComponents = props.tasks.map(item => {
-        const removeTask = (taskID: string) => props.removeTask(taskID, props.todoListID)
-        const changeTaskStatus = (taskID: string, isDone: boolean) => props.changeTaskStatus(taskID, isDone, props.todoListID)
-        const changeTaskTitle = (taskID: string, title: string) => props.changeTaskTitle(taskID, props.todoListID, title)
+    const getTasksForRender = (): Array<TaskType> => {
+        let newTasks;
+        switch (props.filter) {
+            case "active":
+                newTasks = props.tasks.filter(t => !t.isDone)
+                return newTasks
+            case "completed":
+                newTasks = props.tasks.filter(t => t.isDone)
+                return newTasks
+            default:
+                return props.tasks
+        }
+    }
+
+    const tasksComponents = getTasksForRender().map(item => {
+        const removeTask = (taskID: string) => props.removeTask(taskID, todoListID)
+        const changeTaskStatus = (taskID: string, isDone: boolean) => props.changeTaskStatus(taskID, isDone, todoListID)
+        const changeTaskTitle = (taskID: string, title: string) => props.changeTaskTitle(taskID, todoListID, title)
 
         return (
             <Task
@@ -44,6 +59,8 @@ export const TodoList = (props: TodoListPropsType) => {
         )
     });
 
+
+
     return (
         <div className={"todolist"}>
             <TodoListHeader
@@ -54,7 +71,7 @@ export const TodoList = (props: TodoListPropsType) => {
 
 
             <AddItemForm
-                addItem={addTask}
+                addItem={addNewTask}
                 label={"Enter a task"}
             />
 
@@ -80,4 +97,4 @@ export const TodoList = (props: TodoListPropsType) => {
             </ButtonGroup>
         </div>
     );
-}
+});

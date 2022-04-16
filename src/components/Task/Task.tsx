@@ -1,7 +1,7 @@
 import React, {ChangeEvent} from "react";
 import {EditableSpan} from "../EditableSpan/EditableSpan";
 import {Checkbox, IconButton, ListItem} from "@material-ui/core";
-import {Delete, DeleteOutline} from "@material-ui/icons";
+import {DeleteOutline} from "@material-ui/icons";
 
 type TaskPropsType = {
     id: string
