@@ -1,71 +1,65 @@
 import React, {useCallback} from "react";
 import {TodoListHeader} from "../TodoListHeader/TodoListHeader";
-import {FilterValueType, TaskType} from "../../App";
+import {FilterValueType, TaskType} from "../../AppWithRedux";
 import {Task} from "../Task/Task";
 import {AddItemForm} from "../AddItemForm/AddItemForm";
 import {Button, ButtonGroup, List} from "@material-ui/core";
+import {useDispatch} from "react-redux";
+import {ChangeTodoListFilterAC, ChangeTodoListTitleAC, RemoveTodoListAC} from "../../state/todolists-reducer";
+import {addTaskAC} from "../../state/tasks-reducer";
 
 
 type TodoListPropsType = {
-    todoListID: string
+    todoListId: string
     title: string
     tasks: Array<TaskType>
-    removeTask: (taskID: string, todoListID: string) => void
-    changeFilter: (filter: FilterValueType, todoListID: string) => void
-    changeTodoListTitle: (title: string, todoListID: string) => void
-    addTask: (title: string, todoListID: string) => void
-    changeTaskStatus: (taskId: string, isDone: boolean, todoListID: string) => void
-    changeTaskTitle: (taskId: string, todoListID: string, title: string) => void
     filter: FilterValueType
-    removeTodoList: (todoListID: string) => void
 }
 
-export const TodoList: React.FC<TodoListPropsType> = React.memo(({todoListID, addTask, ...props}) => {
+export const TodoList: React.FC<TodoListPropsType> = React.memo(({todoListId, ...props}) => {
     console.log("TodoList")
-    const setFilterValue = (filter: FilterValueType) => () => props.changeFilter(filter, todoListID)
-    const setTitleValue = (title: string) => props.changeTodoListTitle(title, todoListID)
-    const removeTodoList = () => props.removeTodoList(todoListID)
-    const addNewTask = useCallback((title: string) => addTask(title, todoListID), [addTask, todoListID])
 
-    const getTasksForRender = (): Array<TaskType> => {
+
+    const dispatch = useDispatch()
+
+    const setFilterValue = useCallback((filter: FilterValueType) => () => dispatch(ChangeTodoListFilterAC(todoListId, filter)), [dispatch, todoListId])
+
+    const setTitleValue = useCallback((title: string) => dispatch(ChangeTodoListTitleAC(todoListId, title)),[todoListId, dispatch])
+
+    const removeTodolist = useCallback(() => dispatch(RemoveTodoListAC(todoListId)), [todoListId, dispatch])
+
+    const addNewTask = useCallback((title: string) => dispatch(addTaskAC(title, todoListId)), [dispatch, todoListId])
+
+    const getTasksForRender = (tasks: Array<TaskType>, filter: string): Array<TaskType> => {
         let newTasks;
-        switch (props.filter) {
+        switch (filter) {
             case "active":
-                newTasks = props.tasks.filter(t => !t.isDone)
+
+                newTasks = tasks.filter(t => !t.isDone)
                 return newTasks
             case "completed":
-                newTasks = props.tasks.filter(t => t.isDone)
+                newTasks = tasks.filter(t => t.isDone)
                 return newTasks
             default:
-                return props.tasks
+                return tasks
         }
     }
 
-    const tasksComponents = getTasksForRender().map(item => {
-        const removeTask = (taskID: string) => props.removeTask(taskID, todoListID)
-        const changeTaskStatus = (taskID: string, isDone: boolean) => props.changeTaskStatus(taskID, isDone, todoListID)
-        const changeTaskTitle = (taskID: string, title: string) => props.changeTaskTitle(taskID, todoListID, title)
+    const tasksComponents = getTasksForRender(props.tasks, props.filter).map(item => {
 
         return (
             <Task
+                todolistId={todoListId}
                 key={item.id}
                 id={item.id}
-                title={item.title}
-                isDone={item.isDone}
-                removeTask={removeTask}
-                changeTaskStatus={changeTaskStatus}
-                changeTaskTitle={changeTaskTitle}
             />
         )
     });
-
-
-
     return (
         <div className={"todolist"}>
             <TodoListHeader
                 title={props.title}
-                removeTodoList={removeTodoList}
+                removeTodoList={removeTodolist}
                 changeTitle={setTitleValue}
             />
 

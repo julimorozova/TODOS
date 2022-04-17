@@ -5,12 +5,8 @@ import {AddItemForm} from "./components/AddItemForm/AddItemForm";
 import {AppBar, Button, Container, Grid, IconButton, Paper, Toolbar, Typography} from "@material-ui/core";
 import {Menu} from "@material-ui/icons";
 import {
-    AddTodoListAC,
-    ChangeTodoListFilterAC,
-    ChangeTodoListTitleAC,
-    RemoveTodoListAC,
+    AddTodoListAC
 } from "./state/todolists-reducer";
-import {addTaskAC, changeTaskStatusAC, changeTaskTitleAC, removeTaskAC} from "./state/tasks-reducer";
 import {useDispatch, useSelector} from "react-redux";
 import {AppRootStateType} from "./state/store";
 
@@ -35,33 +31,9 @@ export const AppWithRedux = () => {
 
     const dispatch = useDispatch()
 
-    const changeFilter = useCallback((filter: FilterValueType, todoListId: string) => {
-        dispatch(ChangeTodoListFilterAC(todoListId, filter))
-    }, [dispatch])
-    const changeTodoListTitle = useCallback((title: string, todoListId: string) => {
-        dispatch(ChangeTodoListTitleAC(todoListId, title))
-    }, [dispatch])
-    const removeTodoList = useCallback((todoListId: string) => {
-        const action = RemoveTodoListAC(todoListId)
-        dispatch(action)
-    }, [dispatch])
     const addTodoList = useCallback((title: string) => {
         const action = AddTodoListAC(title)
         dispatch(action)
-    }, [dispatch])
-
-    const addTask = useCallback((title: string, todoListId: string) => {
-        dispatch(addTaskAC(title, todoListId))
-    }, [dispatch])
-    const removeTask = useCallback((taskId: string, todoListId: string) => {
-        let action = removeTaskAC(taskId, todoListId)
-        dispatch(action)
-    }, [dispatch])
-    const changeStatus = useCallback((taskId: string, isDone: boolean, todoListId: string) => {
-        dispatch(changeTaskStatusAC(taskId, isDone, todoListId))
-    }, [dispatch])
-     const changeTaskTitle = useCallback((taskId: string, todoListId: string, title: string) => {
-         dispatch(changeTaskTitleAC(taskId, title, todoListId))
     }, [dispatch])
 
 
@@ -70,17 +42,10 @@ export const AppWithRedux = () => {
             <Grid item key={tl.id}>
                 <Paper elevation={3}>
                     <TodoList
-                        todoListID={tl.id}
+                        todoListId={tl.id}
                         title={tl.title}
                         tasks={tasks[tl.id]}
-                        removeTask={removeTask}
-                        changeFilter={changeFilter}
-                        changeTodoListTitle={changeTodoListTitle}
-                        addTask={addTask}
-                        changeTaskStatus={changeStatus}
-                        changeTaskTitle={changeTaskTitle}
                         filter={tl.filter}
-                        removeTodoList={removeTodoList}
                     />
                 </Paper>
             </Grid>
