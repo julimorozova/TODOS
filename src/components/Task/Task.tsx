@@ -1,40 +1,47 @@
-import React, {ChangeEvent} from "react";
+import React, {ChangeEvent, useCallback} from "react";
 import {EditableSpan} from "../EditableSpan/EditableSpan";
 import {Checkbox, IconButton, ListItem} from "@material-ui/core";
-import {Delete, DeleteOutline} from "@material-ui/icons";
+import {DeleteOutline} from "@material-ui/icons";
+import {useDispatch, useSelector} from "react-redux";
+import {AppRootStateType} from "../../state/store";
+import {TaskType} from "../../AppWithRedux";
+import {changeTaskStatusAC, changeTaskTitleAC, removeTaskAC} from "../../state/tasks-reducer";
 
 type TaskPropsType = {
     id: string
-    title: string
-    isDone: boolean
-    removeTask: (taskID: string) => void
-    changeTaskStatus: (taskId: string, isDone: boolean) => void
-    changeTaskTitle: (taskId: string, title: string) => void
+    todolistId: string
 }
 
-export const Task = ({id, title, isDone, removeTask, changeTaskStatus, changeTaskTitle}: TaskPropsType) => {
-    const onChangeHandler = (e: ChangeEvent<HTMLInputElement>) => {
+export const Task = ({id, todolistId}: TaskPropsType) => {
+
+    const task = useSelector<AppRootStateType, TaskType>(state => state.tasks[todolistId].filter(task => task.id === id)[0])
+
+    const dispatch = useDispatch()
+
+    const onChangeHandler = useCallback((e: ChangeEvent<HTMLInputElement>) => {
         let newIsDoneValue = e.currentTarget.checked;
-        changeTaskStatus(id, newIsDoneValue);
-    }
-    const changeTitle = (title: string) => changeTaskTitle(id, title)
+        dispatch(changeTaskStatusAC(id, newIsDoneValue, todolistId))
+    }, [dispatch, id, todolistId])
+
+    const changeTitle = useCallback((title: string) => dispatch(changeTaskTitleAC(id, title, todolistId)), [id, dispatch, todolistId])
+    const removeTask = useCallback(() => dispatch(removeTaskAC(id, todolistId)), [dispatch,todolistId, id ])
 
     return (
         <ListItem divider>
-            <span className={isDone ? "is-done" : ""}>
+            <span className={task.isDone ? "is-done" : ""}>
                 <Checkbox
                     onChange={onChangeHandler}
-                    checked={isDone}
+                    checked={task.isDone}
                     color={"primary"}
                 />
                 <EditableSpan
-                    title={title}
+                    title={task.title}
                     changeTitle={changeTitle}
                 />
             </span>
             <IconButton aria-label="delete"
                         size={"small"}
-                        onClick={() => removeTask(id)}>
+                        onClick={removeTask}>
                 <DeleteOutline />
             </IconButton>
         </ListItem>

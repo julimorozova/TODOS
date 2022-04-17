@@ -6,7 +6,7 @@ type AddItemFormPropsType = {
     label: string
     addItem: (title: string) => void
 }
-export const AddItemForm: React.FC<AddItemFormPropsType> = ({ addItem, label }) => {
+export const AddItemForm: React.FC<AddItemFormPropsType> = React.memo(({ addItem, label }) => {
     const [title, setTitle] = useState<string>("");
     const [error, setError] = useState<string | null>(null);
 
@@ -15,7 +15,7 @@ export const AddItemForm: React.FC<AddItemFormPropsType> = ({ addItem, label }) 
     }
 
     const onKeyPressAddItem = (e: KeyboardEvent<HTMLInputElement>) => {
-        setError(null);
+        if (error) setError(null);
         if(e.charCode === 13) {
             addTask();
         }
@@ -50,5 +50,5 @@ export const AddItemForm: React.FC<AddItemFormPropsType> = ({ addItem, label }) 
             {error && <div className="error-message">{error}</div>}
         </div>
     );
-};
+});
 
