@@ -1,40 +1,34 @@
 import React, {useCallback} from "react";
 import {TodoListHeader} from "../TodoListHeader/TodoListHeader";
-import {FilterValueType, TaskType} from "../../AppWithRedux";
+import {FilterValueType, TaskType, TodoListType} from "../../AppWithRedux";
 import {Task} from "../Task/Task";
 import {AddItemForm} from "../AddItemForm/AddItemForm";
 import {Button, ButtonGroup, List} from "@material-ui/core";
-import {useDispatch} from "react-redux";
+import {useDispatch, useSelector} from "react-redux";
 import {ChangeTodoListFilterAC, ChangeTodoListTitleAC, RemoveTodoListAC} from "../../state/todolists-reducer";
 import {addTaskAC} from "../../state/tasks-reducer";
+import {AppRootStateType} from "../../state/store";
 
 
 type TodoListPropsType = {
     todoListId: string
-    title: string
-    tasks: Array<TaskType>
-    filter: FilterValueType
 }
 
 export const TodoList: React.FC<TodoListPropsType> = React.memo(({todoListId, ...props}) => {
-    console.log("TodoList")
+    const todolist = useSelector<AppRootStateType, TodoListType>(state => state.todolists.filter(tl => tl.id === todoListId)[0])
 
-
+    const tasks = useSelector<AppRootStateType, Array<TaskType>>(state => state.tasks[todoListId]);
     const dispatch = useDispatch()
 
     const setFilterValue = useCallback((filter: FilterValueType) => () => dispatch(ChangeTodoListFilterAC(todoListId, filter)), [dispatch, todoListId])
-
     const setTitleValue = useCallback((title: string) => dispatch(ChangeTodoListTitleAC(todoListId, title)),[todoListId, dispatch])
-
     const removeTodolist = useCallback(() => dispatch(RemoveTodoListAC(todoListId)), [todoListId, dispatch])
-
     const addNewTask = useCallback((title: string) => dispatch(addTaskAC(title, todoListId)), [dispatch, todoListId])
 
-    const getTasksForRender = (tasks: Array<TaskType>, filter: string): Array<TaskType> => {
+    const getTasksForRender = (tasks: Array<TaskType>, filter: FilterValueType): Array<TaskType> => {
         let newTasks;
         switch (filter) {
             case "active":
-
                 newTasks = tasks.filter(t => !t.isDone)
                 return newTasks
             case "completed":
@@ -45,7 +39,7 @@ export const TodoList: React.FC<TodoListPropsType> = React.memo(({todoListId, ..
         }
     }
 
-    const tasksComponents = getTasksForRender(props.tasks, props.filter).map(item => {
+    const tasksComponents = getTasksForRender(tasks, todolist.filter).map(item => {
 
         return (
             <Task
@@ -58,7 +52,7 @@ export const TodoList: React.FC<TodoListPropsType> = React.memo(({todoListId, ..
     return (
         <div className={"todolist"}>
             <TodoListHeader
-                title={props.title}
+                title={todolist.title}
                 removeTodoList={removeTodolist}
                 changeTitle={setTitleValue}
             />
@@ -80,13 +74,13 @@ export const TodoList: React.FC<TodoListPropsType> = React.memo(({todoListId, ..
                 style={{marginTop: "10px"}}
             >
                 <Button
-                    variant={props.filter === "all" ? "contained" : "outlined"}
+                    variant={todolist.filter === "all" ? "contained" : "outlined"}
                     onClick={setFilterValue("all")}>all</Button>
                 <Button
-                    variant={props.filter === "active" ? "contained" : "outlined"}
+                    variant={todolist.filter === "active" ? "contained" : "outlined"}
                     onClick={setFilterValue("active")}>active</Button>
                 <Button
-                    variant={props.filter === "completed" ? "contained" : "outlined"}
+                    variant={todolist.filter === "completed" ? "contained" : "outlined"}
                     onClick={setFilterValue("completed")}>completed</Button>
             </ButtonGroup>
         </div>
