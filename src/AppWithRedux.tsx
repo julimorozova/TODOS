@@ -26,8 +26,8 @@ export type TaskStateType = {
 }
 
 export const AppWithRedux = () => {
-    const tasks = useSelector<AppRootStateType, TaskStateType>(state => state.tasks);
     const todoLists = useSelector<AppRootStateType, Array<TodoListType>>(state => state.todolists)
+
 
     const dispatch = useDispatch()
 
@@ -43,9 +43,6 @@ export const AppWithRedux = () => {
                 <Paper elevation={3}>
                     <TodoList
                         todoListId={tl.id}
-                        title={tl.title}
-                        tasks={tasks[tl.id]}
-                        filter={tl.filter}
                     />
                 </Paper>
             </Grid>

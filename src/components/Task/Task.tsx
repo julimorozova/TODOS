@@ -24,7 +24,7 @@ export const Task = ({id, todolistId}: TaskPropsType) => {
     }, [dispatch, id, todolistId])
 
     const changeTitle = useCallback((title: string) => dispatch(changeTaskTitleAC(id, title, todolistId)), [id, dispatch, todolistId])
-    const removeTask = useCallback(() => dispatch(removeTaskAC(id, todolistId)), [dispatch,todolistId, id ])
+    const removeTask = useCallback(() => dispatch(removeTaskAC(id, todolistId)), [dispatch, todolistId, id ])
 
     return (
         <ListItem divider>
