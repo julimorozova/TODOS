@@ -1,6 +1,6 @@
 import React, {useCallback} from "react";
 import {TodoListHeader} from "../TodoListHeader/TodoListHeader";
-import {FilterValueType, TaskType, TodoListType} from "../../AppWithRedux";
+import {FilterValueType, TaskStateType, TaskType, TodoListType} from "../../AppWithRedux";
 import {Task} from "../Task/Task";
 import {AddItemForm} from "../AddItemForm/AddItemForm";
 import {Button, ButtonGroup, List} from "@material-ui/core";
@@ -14,10 +14,10 @@ type TodoListPropsType = {
     todoListId: string
 }
 
-export const TodoList: React.FC<TodoListPropsType> = React.memo(({todoListId, ...props}) => {
+export const TodoList: React.FC<TodoListPropsType> = React.memo(({todoListId}) => {
     const todolist = useSelector<AppRootStateType, TodoListType>(state => state.todolists.filter(tl => tl.id === todoListId)[0])
-
     const tasks = useSelector<AppRootStateType, Array<TaskType>>(state => state.tasks[todoListId]);
+
     const dispatch = useDispatch()
 
     const setFilterValue = useCallback((filter: FilterValueType) => () => dispatch(ChangeTodoListFilterAC(todoListId, filter)), [dispatch, todoListId])
