@@ -1,21 +1,28 @@
 import React, {useCallback} from "react";
 import {TodoListHeader} from "../TodoListHeader/TodoListHeader";
-import {FilterValueType, TaskStateType, TaskType, TodoListType} from "../../AppWithRedux";
 import {Task} from "../Task/Task";
 import {AddItemForm} from "../AddItemForm/AddItemForm";
 import {Button, ButtonGroup, List} from "@material-ui/core";
 import {useDispatch, useSelector} from "react-redux";
-import {ChangeTodoListFilterAC, ChangeTodoListTitleAC, RemoveTodoListAC} from "../../state/todolists-reducer";
+import {
+    ChangeTodoListFilterAC,
+    ChangeTodoListTitleAC,
+    FilterValueType,
+    RemoveTodoListAC, TodolistDomainType
+} from "../../state/todolists-reducer";
 import {addTaskAC} from "../../state/tasks-reducer";
 import {AppRootStateType} from "../../state/store";
+import {TaskStatuses, TaskType} from "../../api/todolist-api";
 
 
 type TodoListPropsType = {
     todoListId: string
 }
 
+
+
 export const TodoList: React.FC<TodoListPropsType> = React.memo(({todoListId}) => {
-    const todolist = useSelector<AppRootStateType, TodoListType>(state => state.todolists.filter(tl => tl.id === todoListId)[0])
+    const todolist = useSelector<AppRootStateType, TodolistDomainType>(state => state.todolists.filter(tl => tl.id === todoListId)[0])
     const tasks = useSelector<AppRootStateType, Array<TaskType>>(state => state.tasks[todoListId]);
 
     const dispatch = useDispatch()
@@ -29,10 +36,10 @@ export const TodoList: React.FC<TodoListPropsType> = React.memo(({todoListId}) =
         let newTasks;
         switch (filter) {
             case "active":
-                newTasks = tasks.filter(t => !t.isDone)
+                newTasks = tasks.filter(t => t.status === TaskStatuses.New)
                 return newTasks
             case "completed":
-                newTasks = tasks.filter(t => t.isDone)
+                newTasks = tasks.filter(t => t.status === TaskStatuses.Completed)
                 return newTasks
             default:
                 return tasks

@@ -4,8 +4,8 @@ import {Checkbox, IconButton, ListItem} from "@material-ui/core";
 import {DeleteOutline} from "@material-ui/icons";
 import {useDispatch, useSelector} from "react-redux";
 import {AppRootStateType} from "../../state/store";
-import {TaskType} from "../../AppWithRedux";
 import {changeTaskStatusAC, changeTaskTitleAC, removeTaskAC} from "../../state/tasks-reducer";
+import {TaskStatuses, TaskType} from "../../api/todolist-api";
 
 type TaskPropsType = {
     id: string
@@ -20,7 +20,7 @@ export const Task = ({id, todolistId}: TaskPropsType) => {
 
     const onChangeHandler = useCallback((e: ChangeEvent<HTMLInputElement>) => {
         let newIsDoneValue = e.currentTarget.checked;
-        dispatch(changeTaskStatusAC(id, newIsDoneValue, todolistId))
+        dispatch(changeTaskStatusAC(id, newIsDoneValue ? TaskStatuses.Completed : TaskStatuses.New, todolistId))
     }, [dispatch, id, todolistId])
 
     const changeTitle = useCallback((title: string) => dispatch(changeTaskTitleAC(id, title, todolistId)), [id, dispatch, todolistId])
@@ -28,10 +28,10 @@ export const Task = ({id, todolistId}: TaskPropsType) => {
 
     return (
         <ListItem divider>
-            <span className={task.isDone ? "is-done" : ""}>
+            <span className={task.status === TaskStatuses.Completed ? "is-done" : ""}>
                 <Checkbox
                     onChange={onChangeHandler}
-                    checked={task.isDone}
+                    checked={task.status === TaskStatuses.Completed}
                     color={"primary"}
                 />
                 <EditableSpan
