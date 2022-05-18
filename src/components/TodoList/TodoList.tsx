@@ -1,4 +1,4 @@
-import React, {useCallback} from "react";
+import React, {useCallback, useEffect} from "react";
 import {TodoListHeader} from "../TodoListHeader/TodoListHeader";
 import {Task} from "../Task/Task";
 import {AddItemForm} from "../AddItemForm/AddItemForm";
@@ -6,11 +6,11 @@ import {Button, ButtonGroup, List} from "@material-ui/core";
 import {useDispatch, useSelector} from "react-redux";
 import {
     ChangeTodoListFilterAC,
-    ChangeTodoListTitleAC,
+    changeTodoListTitleTC,
     FilterValueType,
-    RemoveTodoListAC, TodolistDomainType
+    removeTodolistTC, TodolistDomainType
 } from "../../state/todolists-reducer";
-import {addTaskAC} from "../../state/tasks-reducer";
+import {addTaskTC, fetchTasksTC} from "../../state/tasks-reducer";
 import {AppRootStateType} from "../../state/store";
 import {TaskStatuses, TaskType} from "../../api/todolist-api";
 
@@ -27,10 +27,14 @@ export const TodoList: React.FC<TodoListPropsType> = React.memo(({todoListId}) =
 
     const dispatch = useDispatch()
 
+    useEffect(() => {
+        dispatch(fetchTasksTC(todolist.id))
+    }, [dispatch, todolist.id])
+
     const setFilterValue = useCallback((filter: FilterValueType) => () => dispatch(ChangeTodoListFilterAC(todoListId, filter)), [dispatch, todoListId])
-    const setTitleValue = useCallback((title: string) => dispatch(ChangeTodoListTitleAC(todoListId, title)),[todoListId, dispatch])
-    const removeTodolist = useCallback(() => dispatch(RemoveTodoListAC(todoListId)), [todoListId, dispatch])
-    const addNewTask = useCallback((title: string) => dispatch(addTaskAC(title, todoListId)), [dispatch, todoListId])
+    const setTitleValue = useCallback((title: string) => dispatch(changeTodoListTitleTC(todoListId, title)),[todoListId, dispatch])
+    const removeTodolist = useCallback(() => dispatch(removeTodolistTC(todoListId)), [todoListId, dispatch])
+    const addNewTask = useCallback((title: string) => dispatch(addTaskTC(title, todoListId)), [dispatch, todoListId])
 
     const getTasksForRender = (tasks: Array<TaskType>, filter: FilterValueType): Array<TaskType> => {
         let newTasks;

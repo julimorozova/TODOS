@@ -4,18 +4,15 @@ import * as serviceWorker from './serviceWorker';
 import {AppWithRedux} from "./AppWithRedux";
 import {store} from "./state/store";
 import {Provider} from "react-redux";
-import { createRoot } from "react-dom/client";
-import { StrictMode } from "react";
+import ReactDOM from 'react-dom';
 
-const rootElement = document.getElementById("root");
-if (!rootElement) throw new Error('Failed to find the root element');
-const root = createRoot(rootElement);
-root.render(
-    <StrictMode>
+ReactDOM.render(
+    <React.StrictMode>
         <Provider store={store}>
-            <AppWithRedux/>
+        <AppWithRedux />
         </Provider>
-    </StrictMode>
+    </React.StrictMode>,
+    document.getElementById('root')
 );
 serviceWorker.unregister();
 
