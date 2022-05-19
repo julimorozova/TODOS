@@ -1,39 +1,43 @@
-import React, {useCallback} from 'react';
+import React, {useCallback, useEffect} from 'react';
 import './App.css';
 import {TodoList} from "./components/TodoList/TodoList";
 import {AddItemForm} from "./components/AddItemForm/AddItemForm";
 import {AppBar, Button, Container, Grid, IconButton, Paper, Toolbar, Typography} from "@material-ui/core";
 import {Menu} from "@material-ui/icons";
 import {
-    AddTodoListAC
+    addTodolistTC, fetchTodolistsTC, TodolistDomainType
 } from "./state/todolists-reducer";
 import {useDispatch, useSelector} from "react-redux";
 import {AppRootStateType} from "./state/store";
+import {TaskType} from "./api/todolist-api";
 
-export type TaskType = {
-    id: string
-    title: string
-    isDone: boolean
-}
-export type FilterValueType = "all" | "active" | "completed"
-export type TodoListType = {
-    id: string
-    title: string
-    filter: FilterValueType
-}
+
+// export type TaskType = {
+//     id: string
+//     title: string
+//     isDone: boolean
+// }
+
+// export type TodoListType = {
+//     id: string
+//     title: string
+//     filter: FilterValueType
+// }
 export type TaskStateType = {
     [todoListID: string]: Array<TaskType>
 }
 
 export const AppWithRedux = () => {
-    const todoLists = useSelector<AppRootStateType, Array<TodoListType>>(state => state.todolists)
-
-
+    const todoLists = useSelector<AppRootStateType, Array<TodolistDomainType>>(state => state.todolists)
     const dispatch = useDispatch()
 
+    useEffect( () => {
+       dispatch(fetchTodolistsTC())
+    }, [dispatch])
+
     const addTodoList = useCallback((title: string) => {
-        const action = AddTodoListAC(title)
-        dispatch(action)
+        const thunk = addTodolistTC(title)
+        dispatch(thunk)
     }, [dispatch])
 
 

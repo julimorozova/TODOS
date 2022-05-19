@@ -1,25 +1,36 @@
 import {
     AddTodoListAC, ChangeTodoListFilterAC,
-    ChangeTodoListFilterAT, ChangeTodoListTitleAC,
-    ChangeTodoListTitleAT,
-    RemoveTodoListAC,
+    ChangeTodoListTitleAC,
+    FilterValueType,
+    RemoveTodoListAC, SetTodolistsAC, TodolistDomainType,
     todolistsReducer
 } from './todolists-reducer';
 import {v1} from 'uuid';
-
-import {FilterValueType, TodoListType} from '../AppWithRedux'
+import {TaskPriorities, TaskStatuses} from "../api/todolist-api";
 
 let todolistId1: string
 let todolistId2: string
-let startState: Array<TodoListType>
+let startState: Array<TodolistDomainType>
 
 beforeEach(() => {
     todolistId1 = v1();
     todolistId2= v1();
 
     startState = [
-        {id: todolistId1, title: "What to learn", filter: "all"},
-        {id: todolistId2, title: "What to buy", filter: "all"}
+        {
+            id: todolistId1,
+            title: "What to learn",
+            addedDate: "",
+            order: 1,
+            filter: "all"
+        },
+        {
+            id: todolistId2,
+            title: "new todolist",
+            addedDate: "",
+            order: 1,
+            filter: "all"
+        }
     ]
 })
 
@@ -33,7 +44,12 @@ test('correct todolist should be removed', () => {
 test('correct todolist should be added', () => {
     let newTodolistTitle = "New Todolist";
 
-    const endState = todolistsReducer(startState, AddTodoListAC(newTodolistTitle))
+    const endState = todolistsReducer(startState, AddTodoListAC({
+        id: "todolistId3",
+        title: "New Todolist",
+        addedDate: "",
+        order: 1
+    }))
 
     expect(endState.length).toBe(3);
     expect(endState[2].title).toBe(newTodolistTitle);
@@ -56,5 +72,12 @@ test('correct filter of todolist should be changed', () => {
 
     expect(endState[0].filter).toBe("all");
     expect(endState[1].filter).toBe(newFilter);
+});
+
+test('todolists shold be set to the state', () => {
+
+    const endState = todolistsReducer([], SetTodolistsAC(startState));
+
+    expect(endState.length).toBe(2);
 });
 
