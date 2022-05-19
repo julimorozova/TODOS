@@ -1,7 +1,7 @@
 ## TODOS
 ### for you and your tasks
 
-***
+----
 
 It is a simple app which you can use for tasks of day.
 
@@ -22,7 +22,7 @@ I hope that the todo helps your and makes you happy!
 
 ___
 
-####Installation
+#### Installation
 
 In the project directory, you can run:
 
