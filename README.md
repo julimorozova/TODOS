@@ -1,5 +1,5 @@
-##TODOS
-###for you and your tasks
+## TODOS
+### for you and your tasks
 
 ***
 
@@ -11,7 +11,7 @@ Your todos and tasks save on server and you can return to them when it will need
 I hope that the todo helps your and makes you happy!
 
 ----
-####Tech:
+#### Tech:
 
 * Typescript
 * React
