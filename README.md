@@ -18,7 +18,6 @@ I hope that the todo helps your and makes you happy!
 * Redux
 * redux-thunk
 * material-ui
-* css-module
 
 ___
 
