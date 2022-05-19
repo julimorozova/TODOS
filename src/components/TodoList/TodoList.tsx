@@ -1,11 +1,11 @@
-import React, {useCallback, useEffect} from "react";
+import React, {memo, useCallback, useEffect} from "react";
 import {TodoListHeader} from "../TodoListHeader/TodoListHeader";
 import {Task} from "../Task/Task";
 import {AddItemForm} from "../AddItemForm/AddItemForm";
 import {Button, ButtonGroup, List} from "@material-ui/core";
 import {useDispatch, useSelector} from "react-redux";
 import {
-    ChangeTodoListFilterAC,
+    changeTodoListFilterAC,
     changeTodoListTitleTC,
     FilterValueType,
     removeTodolistTC, TodolistDomainType
@@ -14,25 +14,17 @@ import {addTaskTC, fetchTasksTC} from "../../state/tasks-reducer";
 import {AppRootStateType} from "../../state/store";
 import {TaskStatuses, TaskType} from "../../api/todolist-api";
 
-
-type TodoListPropsType = {
-    todoListId: string
-}
-
-
-
-export const TodoList: React.FC<TodoListPropsType> = React.memo(({todoListId}) => {
+export const TodoList: React.FC<TodoListPropsType> = memo(({todoListId}) => {
     const todolist = useSelector<AppRootStateType, TodolistDomainType>(state => state.todolists.filter(tl => tl.id === todoListId)[0])
     const tasks = useSelector<AppRootStateType, Array<TaskType>>(state => state.tasks[todoListId]);
-
     const dispatch = useDispatch()
 
     useEffect(() => {
         dispatch(fetchTasksTC(todolist.id))
     }, [dispatch, todolist.id])
 
-    const setFilterValue = useCallback((filter: FilterValueType) => () => dispatch(ChangeTodoListFilterAC(todoListId, filter)), [dispatch, todoListId])
-    const setTitleValue = useCallback((title: string) => dispatch(changeTodoListTitleTC(todoListId, title)),[todoListId, dispatch])
+    const setFilterValue = useCallback((filter: FilterValueType) => () => dispatch(changeTodoListFilterAC(todoListId, filter)), [dispatch, todoListId])
+    const setTitleValue = useCallback((title: string) => dispatch(changeTodoListTitleTC(todoListId, title)), [todoListId, dispatch])
     const removeTodolist = useCallback(() => dispatch(removeTodolistTC(todoListId)), [todoListId, dispatch])
     const addNewTask = useCallback((title: string) => dispatch(addTaskTC(title, todoListId)), [dispatch, todoListId])
 
@@ -49,31 +41,23 @@ export const TodoList: React.FC<TodoListPropsType> = React.memo(({todoListId}) =
                 return tasks
         }
     }
-
     const tasksComponents = getTasksForRender(tasks, todolist.filter).map(item => {
-
         return (
             <Task
                 todolistId={todoListId}
                 key={item.id}
-                id={item.id}
-            />
-        )
+                id={item.id}/>)
     });
+
     return (
         <div className={"todolist"}>
             <TodoListHeader
                 title={todolist.title}
                 removeTodoList={removeTodolist}
-                changeTitle={setTitleValue}
-            />
-
-
+                changeTitle={setTitleValue}/>
             <AddItemForm
                 addItem={addNewTask}
-                label={"Enter a task"}
-            />
-
+                label={"Enter a task"}/>
             <List>
                 {tasksComponents}
             </List>
@@ -82,8 +66,7 @@ export const TodoList: React.FC<TodoListPropsType> = React.memo(({todoListId}) =
                 size={"small"}
                 className={"buttonGroup"}
                 fullWidth
-                style={{marginTop: "10px"}}
-            >
+                style={{marginTop: "10px"}}>
                 <Button
                     variant={todolist.filter === "all" ? "contained" : "outlined"}
                     onClick={setFilterValue("all")}>all</Button>
@@ -97,3 +80,7 @@ export const TodoList: React.FC<TodoListPropsType> = React.memo(({todoListId}) =
         </div>
     );
 });
+
+type TodoListPropsType = {
+    todoListId: string
+}
