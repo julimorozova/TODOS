@@ -2,11 +2,12 @@ import React, {ChangeEvent, KeyboardEvent, memo, useState} from 'react';
 import {IconButton, TextField} from "@material-ui/core";
 import {Add} from "@material-ui/icons";
 
-export const AddItemForm: React.FC<AddItemFormPropsType> = memo(({addItem, label}) => {
+export const AddItemForm: React.FC<AddItemFormPropsType> = memo(({addItem, label, disabled}) => {
     const [title, setTitle] = useState<string>("");
     const [error, setError] = useState<string | null>(null);
 
     const onChangeSetTitle = (e: ChangeEvent<HTMLInputElement>) => {
+        if (error) setError(null);
         setTitle(e.currentTarget.value);
     }
     const onKeyPressAddItem = (e: KeyboardEvent<HTMLInputElement>) => {
@@ -28,13 +29,14 @@ export const AddItemForm: React.FC<AddItemFormPropsType> = memo(({addItem, label
             <TextField
                 id="standard-basic"
                 label={label}
+                disabled={disabled}
                 value={title}
                 onChange={onChangeSetTitle}
                 onKeyPress={onKeyPressAddItem}
                 className={error ? "error" : ""}
                 size={"small"}
                 error={!!error}/>
-            <IconButton onClick={addTask}>
+            <IconButton onClick={addTask} disabled={disabled}>
                 <Add/>
             </IconButton>
             {error && <div className="error-message">{error}</div>}
@@ -44,6 +46,7 @@ export const AddItemForm: React.FC<AddItemFormPropsType> = memo(({addItem, label
 
 type AddItemFormPropsType = {
     label: string
+    disabled?: boolean
     addItem: (title: string) => void
 }
 

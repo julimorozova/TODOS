@@ -54,10 +54,13 @@ export const TodoList: React.FC<TodoListPropsType> = memo(({todoListId}) => {
             <TodoListHeader
                 title={todolist.title}
                 removeTodoList={removeTodolist}
-                changeTitle={setTitleValue}/>
+                changeTitle={setTitleValue}
+                entityStatus={todolist.entityStatus}
+            />
             <AddItemForm
+                disabled={todolist.entityStatus === "loading"}
                 addItem={addNewTask}
-                label={"Enter a task"}/>
+                label={"Add a task"}/>
             <List>
                 {tasksComponents}
             </List>
@@ -75,7 +78,7 @@ export const TodoList: React.FC<TodoListPropsType> = memo(({todoListId}) => {
                     onClick={setFilterValue("active")}>active</Button>
                 <Button
                     variant={todolist.filter === "completed" ? "contained" : "outlined"}
-                    onClick={setFilterValue("completed")}>completed</Button>
+                    onClick={setFilterValue("completed")}>done</Button>
             </ButtonGroup>
         </div>
     );

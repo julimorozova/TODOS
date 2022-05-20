@@ -23,7 +23,7 @@ export const Task: React.FC<TaskPropsType> = memo(({id, todolistId}) => {
     const removeTask = useCallback(() => dispatch(deleteTaskTC(id, todolistId)), [dispatch, todolistId, id])
 
     return (
-        <ListItem divider>
+        <ListItem divider style={{justifyContent: "space-between"}}>
             <span className={task.status === TaskStatuses.Completed ? "is-done" : ""}>
                 <Checkbox
                     onChange={onChangeHandler}
