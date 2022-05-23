@@ -31,6 +31,6 @@ export const setAppErrorAC = (error: NullableType<string>) => ({
 export type ActionsTypeApp =
     | ReturnType<typeof setAppStatusAC>
     | ReturnType<typeof setAppErrorAC>
-type InitialStateType = typeof initialState
+export type InitialStateType = typeof initialState
 export type RequestStatusType = 'idle' | 'loading' | 'succeeded' | 'failed'
 export type NullableType<T> = null | T
