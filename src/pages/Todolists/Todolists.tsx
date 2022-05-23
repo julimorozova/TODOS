@@ -1,12 +1,12 @@
 import Grid from "@material-ui/core/Grid";
-import {AddItemForm} from "../AddItemForm/AddItemForm";
 import Container from "@material-ui/core/Container";
 import React, {useCallback, useEffect} from "react";
 import Paper from "@material-ui/core/Paper";
-import {TodoList} from "../TodoList/TodoList";
 import {useDispatch, useSelector} from "react-redux";
 import {AppRootStateType} from "../../state/store";
 import {addTodolistTC, fetchTodolistsTC, TodolistDomainType} from "../../state/todolists-reducer";
+import {AddItemForm} from "../../components/AddItemForm/AddItemForm";
+import {TodoList} from "../../components/TodoList/TodoList";
 
 export const Todolists = () => {
     const todoLists = useSelector<AppRootStateType, Array<TodolistDomainType>>(state => state.todolists)
