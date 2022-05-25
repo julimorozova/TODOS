@@ -37,7 +37,7 @@ export const Todolists = () => {
     })
 
     if(!isLoggedIn) {
-        return  <Navigate to={'/login'}/>
+        return  <Navigate to={'/todos/login'}/>
     }
     return (
         <Container fixed>

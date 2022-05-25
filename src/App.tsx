@@ -31,10 +31,9 @@ export const App = () => {
             <Header/>
             { status === 'loading' && <LinearProgress color="secondary"/> }
             <Routes>
-                <Route path="/" element={<Todolists/>} />
-                <Route path="/TODOS" element={<Todolists/>} />
-                <Route path="login" element={<Login/>} />
-                <Route path="notfound" element={<h1 style={{textAlign: 'center'}}>404. Page not found</h1>} />
+                <Route path="/todos" element={<Todolists/>} />
+                <Route path="/todos/login" element={<Login/>} />
+                <Route path="/todos/notfound" element={<h1 style={{textAlign: 'center'}}>404. Page not found</h1>} />
                 <Route path="*" element={<Navigate to="/notfound"/>} />
             </Routes>
             <ErrorSnackbar/>
