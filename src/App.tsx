@@ -34,7 +34,7 @@ export const App = () => {
                 <Route path="/todos" element={<Todolists/>} />
                 <Route path="/todos/login" element={<Login/>} />
                 <Route path="/todos/notfound" element={<h1 style={{textAlign: 'center'}}>404. Page not found</h1>} />
-                <Route path="*" element={<Navigate to="/notfound"/>} />
+                <Route path="*" element={<Navigate to="/todos/notfound"/>} />
             </Routes>
             <ErrorSnackbar/>
         </div>
