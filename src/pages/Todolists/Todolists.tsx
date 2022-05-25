@@ -7,14 +7,19 @@ import {AppRootStateType} from "../../state/store";
 import {addTodolistTC, fetchTodolistsTC, TodolistDomainType} from "../../state/todolists-reducer";
 import {AddItemForm} from "../../components/AddItemForm/AddItemForm";
 import {TodoList} from "../../components/TodoList/TodoList";
+import {Navigate} from "react-router-dom";
 
 export const Todolists = () => {
     const todoLists = useSelector<AppRootStateType, Array<TodolistDomainType>>(state => state.todolists)
+    const isLoggedIn = useSelector<AppRootStateType, boolean>(state=> state.auth.isLoggedIn)
     const dispatch = useDispatch()
 
     useEffect( () => {
+        if (!isLoggedIn) {
+            return
+        }
         dispatch(fetchTodolistsTC())
-    }, [dispatch])
+    }, [dispatch, isLoggedIn])
 
     const addTodoList = useCallback((title: string) => {
         const thunk = addTodolistTC(title)
@@ -30,6 +35,10 @@ export const Todolists = () => {
             </Grid>
         )
     })
+
+    if(!isLoggedIn) {
+        return  <Navigate to={'/login'}/>
+    }
     return (
         <Container fixed>
             <Grid container style={{padding: "25px 0"}}>

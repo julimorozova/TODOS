@@ -1,8 +1,9 @@
 import {todolistAPI, TodolistType} from "../api/todolist-api";
 import {AppThunk} from "./store";
-import {RequestStatusType, setAppErrorAC, setAppStatusAC} from "./app-reduser";
+import {RequestStatusType, setAppStatusAC} from "./app-reduser";
 import {AxiosError} from "axios";
 import {handleServerAppError, handleServerNetworkError} from "../utils/error-utils";
+import {fetchTasksTC} from "./tasks-reducer";
 
 export const REMOVE_TODOLIST = "REMOVE_TODOLIST"
 export const ADD_TODOLIST = "ADD_TODOLIST"
@@ -22,7 +23,6 @@ export const todolistsReducer = (todoLists = initialState, action: ActionTypeTod
                 ...action.todolist,
                 filter: "all",
                 entityStatus: "idle"
-
             }]
         case CHANGE_TODOLIST_TITLE:
             return todoLists.map(tl => tl.id === action.id ? {...tl, title: action.title} : tl)
@@ -35,6 +35,8 @@ export const todolistsReducer = (todoLists = initialState, action: ActionTypeTod
         case CHANGE_TODOLIST_ENTITY_STATUS:
             return todoLists.map(tl => tl.id === action.id
                 ? {...tl, entityStatus: action.entityStatus} : tl)
+        case "CLEAR_DATA":
+            return []
         default:
             return todoLists
     }
@@ -67,6 +69,8 @@ export const changeTodolistEntityStatusAC = (id: string, entityStatus: RequestSt
     type: CHANGE_TODOLIST_ENTITY_STATUS, id, entityStatus
 }) as const
 
+export const clearDataAC = () => ({type: 'CLEAR_DATA'}) as const
+
 // ####################################
 // thunks
 
@@ -76,6 +80,12 @@ export const fetchTodolistsTC = (): AppThunk => dispatch => {
         .then(res => {
             dispatch(setAppStatusAC('succeeded'))
             dispatch(setTodolistsAC(res.data))
+            return res.data
+        })
+        .then((todos) => {
+            todos.forEach(tl => {
+                dispatch(fetchTasksTC(tl.id))
+            })
         })
         .catch((err: AxiosError) => {
             handleServerNetworkError(err.message, dispatch)
@@ -144,6 +154,7 @@ export type TodolistDomainType = TodolistType & {
 export type RemoveTodoListAT = ReturnType<typeof removeTodoListAC>
 export type AddTodoListAT = ReturnType<typeof addTodoListAC>
 export type SetTodolistsAT = ReturnType<typeof setTodolistsAC>
+export type ClearDataAT = ReturnType<typeof clearDataAC>
 
 export type ActionTypeTodolist =
     | RemoveTodoListAT
@@ -152,4 +163,5 @@ export type ActionTypeTodolist =
     | ReturnType<typeof changeTodoListTitleAC>
     | ReturnType<typeof changeTodoListFilterAC>
     | ReturnType<typeof changeTodolistEntityStatusAC>
+    | ClearDataAT
 

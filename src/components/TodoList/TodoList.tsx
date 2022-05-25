@@ -1,4 +1,4 @@
-import React, {memo, useCallback, useEffect} from "react";
+import React, {memo, useCallback} from "react";
 import {TodoListHeader} from "../TodoListHeader/TodoListHeader";
 import {Task} from "../Task/Task";
 import {AddItemForm} from "../AddItemForm/AddItemForm";
@@ -10,18 +10,15 @@ import {
     FilterValueType,
     removeTodolistTC, TodolistDomainType
 } from "../../state/todolists-reducer";
-import {addTaskTC, fetchTasksTC} from "../../state/tasks-reducer";
+import {addTaskTC} from "../../state/tasks-reducer";
 import {AppRootStateType} from "../../state/store";
 import {TaskStatuses, TaskType} from "../../api/todolist-api";
 
 export const TodoList: React.FC<TodoListPropsType> = memo(({todoListId}) => {
     const todolist = useSelector<AppRootStateType, TodolistDomainType>(state => state.todolists.filter(tl => tl.id === todoListId)[0])
     const tasks = useSelector<AppRootStateType, Array<TaskType>>(state => state.tasks[todoListId]);
-    const dispatch = useDispatch()
 
-    useEffect(() => {
-        dispatch(fetchTasksTC(todolist.id))
-    }, [dispatch, todolist.id])
+    const dispatch = useDispatch()
 
     const setFilterValue = useCallback((filter: FilterValueType) => () => dispatch(changeTodoListFilterAC(todoListId, filter)), [dispatch, todoListId])
     const setTitleValue = useCallback((title: string) => dispatch(changeTodoListTitleTC(todoListId, title)), [todoListId, dispatch])
@@ -48,7 +45,6 @@ export const TodoList: React.FC<TodoListPropsType> = memo(({todoListId}) => {
                 key={item.id}
                 id={item.id}/>)
     });
-
     return (
         <div className={"todolist"}>
             <TodoListHeader

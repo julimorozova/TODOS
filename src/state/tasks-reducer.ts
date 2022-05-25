@@ -1,6 +1,6 @@
 import {
     ADD_TODOLIST,
-    AddTodoListAT, REMOVE_TODOLIST,
+    AddTodoListAT, ClearDataAT, REMOVE_TODOLIST,
     RemoveTodoListAT, SET_TODOLISTS,
     SetTodolistsAT,
 } from "./todolists-reducer";
@@ -10,14 +10,11 @@ import {AxiosError} from "axios";
 import {handleServerAppError, handleServerNetworkError} from "../utils/error-utils";
 import {setAppStatusAC} from "./app-reduser";
 
-
-
 const REMOVE_TASK = "REMOVE_TASK"
 const ADD_TASK = "ADD_TASK"
 const CHANGE_TASK_STATUS = "CHANGE_TASK_STATUS"
 const CHANGE_TASK_TITLE = "CHANGE_TASK_TITLE"
 const SET_TASKS = "SET_TASKS"
-
 
 const initialState: TaskStateType = {}
 
@@ -67,6 +64,8 @@ export const tasksReducer = (state = initialState, action: ActionTypeTask): Task
                 ...state,
                 [action.todolistId]: [...action.tasks]
             }
+        case "CLEAR_DATA":
+            return {}
         default:
             return state
     }
@@ -213,6 +212,7 @@ export type ActionTypeTask =
     | RemoveTodoListAT
     | AddTodoListAT
     | SetTodolistsAT
+    | ClearDataAT
 
 
 
