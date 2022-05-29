@@ -5,6 +5,7 @@ const instance = axios.create({
     baseURL: 'https://social-network.samuraijs.com/api/1.1/',
     withCredentials: true,
     headers: {
+        // Ключ лучше класть в .env
         'API-KEY': 'a1038b76-ce0b-4e0f-8fa8-c2cb1917e698'
     }
 })
@@ -20,6 +21,8 @@ export const todolistAPI = {
         return instance.put<{ title: string }, AxiosResponse<ResponseType>>(`todo-lists/${todolistId}`, {title})
     },
     deleteTodolist(todolistId: string) {
+        // todo-lists - лучше вынести в константу
+        //  Ну и вообще все неуникальные составляющие урла
         return instance.delete<ResponseType>(`todo-lists/${todolistId}`)
     },
     getTodolists() {
@@ -52,6 +55,7 @@ export const authAPI = {
         return instance.post<LoginParamsType, AxiosResponse<ResponseType<{userId: number}>>>(`auth/login`, data)
     },
     me() {
+        // Вообще желательно типизироватть ответ от апи сразу же. Тем более, что ResponseType у тебя принимает данные.
         return instance.get<ResponseType<{id: number, email: string, login: string}>>(`auth/me`)
     },
     logout() {
@@ -59,7 +63,8 @@ export const authAPI = {
     }
 }
 
-// ####################################
+// Вместо разделителей лушче просто выносить в отдельные файлы
+// ###################################
 // types
 
 export type TodolistType = {

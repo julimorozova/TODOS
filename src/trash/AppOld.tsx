@@ -1,3 +1,4 @@
+// Такие вещи можно кидать в .gitignore
 export {}
 // import React, {useState} from 'react';
 // import './App.css';

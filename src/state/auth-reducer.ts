@@ -9,6 +9,7 @@ const initialState: InitialState = {
     isLoggedIn: false
 }
 
+// Ревдьюссер и экшены можно хранить отдельно
 export const authReducer = (state: InitialState = initialState, action: ActionTypeAuth) => {
     switch (action.type) {
         case 'LOGIN':
@@ -19,6 +20,7 @@ export const authReducer = (state: InitialState = initialState, action: ActionTy
 }
 
 export const setIsLoggedInAC = (isLoggedIn: boolean) =>
+    // Экшены (LOGIN) нужно выносить в коснтанты, что бы не писать строки каждый раз
     ({type: 'LOGIN', isLoggedIn}) as const
 
 export const loginTC = (data: LoginParamsType): AppThunk => {

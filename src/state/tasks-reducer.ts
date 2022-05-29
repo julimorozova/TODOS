@@ -1,3 +1,4 @@
+// Довольно таки большие файлы получаются. Можно делать папочки "tasks", "auth" и и.д. и там делать файл типов, экшенов, редьюссер и пр
 import {
     ADD_TODOLIST,
     AddTodoListAT, ClearDataAT, REMOVE_TODOLIST,

@@ -11,6 +11,7 @@ export const Button: React.FC<ButtonPropsType> = ({
     className
   }) => {
     return (
+        // Чисто для бонуса можно линтер настроить. Это не сильно сложно, но будет приятнее даже самой код писать в репозитории
         <button className={className}
                 onClick = { onClickHandler }>{ buttonName }</button>
     )

@@ -23,6 +23,8 @@ export const Login = () => {
             rememberMe: false
         },
         validate: values => {
+            // Для валидации с формиком есть пакет yup
+            // Если хочешь свой вадидатор, то лучше хранить его не внутри файла
             const errors: FormikErrorType = {};
             if (!values.email) {
                 errors.email = 'Required';
@@ -46,6 +48,7 @@ export const Login = () => {
     }
 
     return (
+        // Клево, что освоила material ui
         <Grid container justifyContent={'center'}>
             <Grid item justifyContent={'center'}>
                 <FormControl>
