@@ -33,6 +33,7 @@ export const AddItemForm: React.FC<AddItemFormPropsType> = memo(({addItem, label
                 value={title}
                 onChange={onChangeSetTitle}
                 onKeyPress={onKeyPressAddItem}
+                // Можно пакет classname использовать что бы писать такие условия удобнее
                 className={error ? "error" : ""}
                 size={"small"}
                 error={!!error}/>

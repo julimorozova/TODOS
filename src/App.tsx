@@ -12,6 +12,7 @@ import {Login} from "./pages/Login/Login";
 import {CircularProgress} from "@material-ui/core";
 
 export const App = () => {
+    // Возможно селекторы лучше хранить отедльно
     const status = useSelector<AppRootStateType, RequestStatusType >(state => state.app.status)
     const isInitialized = useSelector<AppRootStateType, boolean>(state => state.app.isInitialized)
     const dispatch = useDispatch()
